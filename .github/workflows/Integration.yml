@@ -2,7 +2,7 @@ name: Integration
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ test ]
 
 env:
   dotnet-version: '9.0.x'
