@@ -31,6 +31,7 @@
 using Numerics.Data.Statistics;
 using Numerics.Distributions;
 using System;
+using System.Text.Json.Serialization;
 
 namespace Numerics.Sampling.MCMC
 {
@@ -44,7 +45,6 @@ namespace Numerics.Sampling.MCMC
     ///     Haden Smith, USACE Risk Management Center, cole.h.smith@usace.army.mil
     /// </para>
     /// </remarks>
-    [Serializable]
     public class ParameterResults
     {
 
@@ -83,16 +83,19 @@ namespace Numerics.Sampling.MCMC
         /// <summary>
         /// Parameter summary statistics.
         /// </summary>
+        [JsonInclude]
         public ParameterStatistics SummaryStatistics { get; private set; }
 
         /// <summary>
         /// The kernel density results.
         /// </summary>
+        [JsonInclude]
         public double[,] KernelDensity { get; private set; }
 
         /// <summary>
         /// The histogram results.
         /// </summary>
+        [JsonInclude]
         public Histogram Histogram { get; private set; }
 
         /// <summary>
