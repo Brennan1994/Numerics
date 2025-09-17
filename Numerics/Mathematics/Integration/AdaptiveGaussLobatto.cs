@@ -136,10 +136,10 @@ namespace Numerics.Mathematics.Integration
                 Result = adaptlob(Function, a, b, fa, fb, iS);
 
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Status = IntegrationStatus.Failure;
-                if (ReportFailure) throw ex;
+                if (ReportFailure) throw;
             }
 
         }
