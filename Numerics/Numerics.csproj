@@ -26,6 +26,11 @@
 	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <!-- 1591 is missing xml comment for a public member. 1587 is an xml comment not placed on a valid member (in our case, mostly license text at top of files) -->
+    <NoWarn>CS1591;CS1587</NoWarn>
+  </PropertyGroup>
+
   
   	<ItemGroup>
 		<!--https://github.com/dotnet/reproducible-builds-->
