@@ -21,15 +21,6 @@
     <PackageId>RMC.Numerics</PackageId>
   </PropertyGroup>
 
-  <!-- <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <Optimize>False</Optimize>
-    <WarningLevel>1</WarningLevel>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <WarningLevel>1</WarningLevel>
-  </PropertyGroup> -->
-
   <!-- Otherwise targets C# 7.3 which doesn't have global usings and some other syntactic sugar utilized here.  -->
   <PropertyGroup Condition="'$(TargetFramework)' == 'net481'">
 	<LangVersion>latest</LangVersion>
