@@ -245,15 +245,7 @@ namespace Numerics.Sampling
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + LowerBound.GetHashCode();
-                hash = hash * 23 + UpperBound.GetHashCode();
-                hash = hash * 23 + NumberOfBins.GetHashCode();
-                hash = hash * 23 + IsProbability.GetHashCode();
-                return hash;
-            }
+            return HashCode.Combine(LowerBound, UpperBound, NumberOfBins, IsProbability);
         }
     }
 }

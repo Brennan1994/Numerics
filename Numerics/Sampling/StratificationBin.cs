@@ -173,7 +173,8 @@ namespace Numerics.Sampling
         }
 
         /// <summary>
-        /// Serves as the default hash function.
+        /// Serves as the default hash function. Purposefuly does not include the weight, because the 
+        /// equals and compare to methods also do not.
         /// </summary>
         /// <returns>A hash code for the current object.</returns>
         public override int GetHashCode()
