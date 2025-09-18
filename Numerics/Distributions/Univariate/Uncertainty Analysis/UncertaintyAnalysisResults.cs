@@ -30,12 +30,14 @@
 
 using Numerics.Mathematics.Optimization;
 using Numerics.Sampling.MCMC;
+using Numerics.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -51,7 +53,6 @@ namespace Numerics.Distributions
     ///     Haden Smith, USACE Risk Management Center, cole.h.smith@usace.army.mil
     /// </para>
     /// </remarks>
-    [Serializable]
     public class UncertaintyAnalysisResults
     {
 
@@ -111,12 +112,17 @@ namespace Numerics.Distributions
         /// <param name="results">The uncertainty analysis results.</param>
         public static byte[] ToByteArray(UncertaintyAnalysisResults results)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            using (var ms = new MemoryStream())
+            var options = new JsonSerializerOptions
             {
-                bf.Serialize(ms, results);
-                return ms.ToArray();
-            }
+                WriteIndented = false,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                IncludeFields = true
+            };
+            // Add custom converters for unsupported types
+            options.Converters.Add(new Double2DArrayConverter());
+            options.Converters.Add(new String2DArrayConverter());
+            options.Converters.Add(new UnivariateDistributionConverter());
+            return JsonSerializer.SerializeToUtf8Bytes(results, options);
         }
 
         /// <summary>
@@ -127,20 +133,22 @@ namespace Numerics.Distributions
         {
             try
             {
-                using (var memStream = new MemoryStream())
+                var options = new JsonSerializerOptions
                 {
-                    var binForm = new BinaryFormatter();
-                    memStream.Write(bytes, 0, bytes.Length);
-                    memStream.Seek(0, SeekOrigin.Begin);
-                    var obj = binForm.Deserialize(memStream);
-                    return (UncertaintyAnalysisResults)obj;
-                }
+                    DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                    IncludeFields = true
+                };
+                // Add custom converters for unsupported types
+                options.Converters.Add(new Double2DArrayConverter());
+                options.Converters.Add(new String2DArrayConverter());
+                options.Converters.Add(new UnivariateDistributionConverter());
+                return JsonSerializer.Deserialize<UncertaintyAnalysisResults>(bytes, options);
             }
             catch (Exception)
             {
-                // An error can occur because of differences in versions. 
+                // An error can occur because of differences in versions.
                 // If there is an error, just catch it and force the user to rerun the
-                // uncertainty analysis. 
+                // uncertainty analysis.
             }
             return null;
         }
