@@ -38,4 +38,8 @@ jobs:
       run: |
             # Use the snapshot version from the previous step
             dotnet pack --configuration Release /p:PackageVersion=${{ env.VERSION }}
+    
+    - name: Publish
+      shell: pwsh
+      run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NEXUS_NUGET_APIKEY }} --source "https://www.hec.usace.army.mil/nexus/repository/fda-nuget/" --skip-duplicate
       
