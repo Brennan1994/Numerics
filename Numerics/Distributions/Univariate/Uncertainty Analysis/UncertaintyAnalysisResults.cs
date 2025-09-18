@@ -30,6 +30,7 @@
 
 using Numerics.Mathematics.Optimization;
 using Numerics.Sampling.MCMC;
+using Numerics.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -117,6 +118,10 @@ namespace Numerics.Distributions
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                 IncludeFields = true
             };
+            // Add custom converters for unsupported types
+            options.Converters.Add(new Double2DArrayConverter());
+            options.Converters.Add(new String2DArrayConverter());
+            options.Converters.Add(new UnivariateDistributionConverter());
             return JsonSerializer.SerializeToUtf8Bytes(results, options);
         }
 
@@ -133,6 +138,10 @@ namespace Numerics.Distributions
                     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
                     IncludeFields = true
                 };
+                // Add custom converters for unsupported types
+                options.Converters.Add(new Double2DArrayConverter());
+                options.Converters.Add(new String2DArrayConverter());
+                options.Converters.Add(new UnivariateDistributionConverter());
                 return JsonSerializer.Deserialize<UncertaintyAnalysisResults>(bytes, options);
             }
             catch (Exception)
