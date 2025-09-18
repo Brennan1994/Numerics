@@ -22,9 +22,6 @@ jobs:
       with:
           dotnet-version: ${{ env.dotnet-version }}
       
-    - name: Add Source
-      run: dotnet nuget add source --username HydrologicEngineeringCenter --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/HydrologicEngineeringCenter/index.json"
-        
     - name: Test
       run: dotnet test -c Release
 
@@ -64,6 +61,6 @@ jobs:
             dotnet pack --configuration Release /p:PackageVersion=$env:SNAPSHOT_VERSION
             Write-Host "Created package with version: $env:SNAPSHOT_VERSION"
       shell: powershell
-      
+
     - name: Publish
-      run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.GITHUB_TOKEN }} --source "github" --skip-duplicate
+      run: dotnet nuget push "**/*.nupkg" --api-key ${{ secrets.NEXUS_NUGET_APIKEY }} --source "https://www.hec.usace.army.mil/nexus/repository/fda-nuget/" --skip-duplicate
